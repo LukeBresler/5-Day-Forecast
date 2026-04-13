@@ -12,12 +12,15 @@ import CoreLocation
 class WeatherService {
     private let networkService: NetworkServiceProtocol
     private let configuration: ConfigurationProtocol
+    private let locationService: LocationServiceProtocol
 
     init(
         networkService: NetworkServiceProtocol = NetworkService(),
+        locationService: LocationServiceProtocol = LocationService(),
         configuration: ConfigurationProtocol = Configuration.default
     ) {
         self.networkService = networkService
+        self.locationService = locationService
         self.configuration = configuration
     }
 

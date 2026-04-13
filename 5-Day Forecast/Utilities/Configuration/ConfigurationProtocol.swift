@@ -7,7 +7,6 @@
 
 
 import Foundation
-import CoreLocation
 
 protocol ConfigurationProtocol {
     var weatherAPIKey: String { get }
@@ -24,9 +23,12 @@ struct Configuration: ConfigurationProtocol {
     )
 
     private static func loadAPIKey() -> String {
-        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "WEATHER_API_KEY") as? String,
-              !apiKey.isEmpty else {
-            fatalError("Missing WEATHER_API_KEY in Info.plist")
+        guard
+            let apiKey = Bundle.main.object(forInfoDictionaryKey: "WEATHER_API_KEY") as? String,
+            !apiKey.isEmpty,
+            !apiKey.hasPrefix("$(")
+        else {
+            fatalError("Missing WEATHER_API_KEY. Ensure Secrets.xcconfig is set as the target's base configuration and defines WEATHER_API_KEY.")
         }
         return apiKey
     }
